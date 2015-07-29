@@ -1,6 +1,6 @@
-# ngSession
+# ngStore
 
-Sessions for Angular.js.
+Angular.js wrapper for Store.js.
 
 <br />
 
@@ -11,9 +11,7 @@ Sessions for Angular.js.
 
 ## Dependencies
 
-- `ui-router` - https://github.com/angular-ui/ui-router
-- `Endpoint` - https://github.com/ishmaelthedestroyer/Endpoint
-- `Util` - https://github.com/ishmaelthedestroyer/Util
+- `store.js`
 
 ## Notes
 Developed by <a href='http://twitter.com/ishmaelsalive'>ishmaelthedestroyer</a>. <br />
