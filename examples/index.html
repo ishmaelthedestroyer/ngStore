@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ngStore</title>
+</head>
+<body data-ng-controller='AppCtrl as AppCtrl'>
+
+<script src='../deps/store.js/store.js'></script>
+<script src='../deps/angular/angular.js'></script>
+<script src='../dist/ngStore.js'></script>
+<script>
+var app = angular.module('app', [
+  'ngStore',
+]).controller('AppCtrl', [
+  '$log',
+  'ngStore',
+  function($log, ngStore) {
+    store.clear();
+
+    $log.debug('App loaded.');
+    var
+      store1 = ngStore.get('store1'),
+      store2 = ngStore.get('store2'),
+      store3 = ngStore.get('store3');
+
+    $log.debug('created store1, store2, and store3');
+
+    $log.debug('store1', store1);
+    $log.debug('store2', store2);
+    $log.debug('store3', store3);
+
+    $log.debug('setting store1.foo === "bar"');
+
+    store1.set('foo', 'bar');
+    $log.debug('store1.get("foo")', store1.get('foo'));
+    $log.debug('store2.get("foo")', store2.get('foo'));
+    $log.debug('store3.get("foo")', store3.get('foo'));
+
+    $log.debug('removing store1.foo');
+
+    store1.remove('foo');
+    $log.debug('store1.get("foo")', store1.get('foo'));
+    $log.debug('store2.get("foo")', store2.get('foo'));
+    $log.debug('store3.get("foo")', store3.get('foo'));
+
+    $log.debug('setting store1.foo === "bar" & clearing it');
+
+    store1.set('foo', 'bar');
+    store1.clear();
+    $log.debug('store1.get("foo")', store1.get('foo'));
+    $log.debug('store2.get("foo")', store2.get('foo'));
+    $log.debug('store3.get("foo")', store3.get('foo'));
+
+    $log.debug('setting store2.foo === "{ lol: "lol" }" & store2.bar === 3');
+
+    store2.set('foo', { lol: 'lol' });
+    store2.set('bar', 3);
+    $log.debug('store1.get("foo")', store1.get('foo'));
+    $log.debug('store1.get("bar")', store1.get('bar'));
+    $log.debug('store2.get("foo")', store2.get('foo'));
+    $log.debug('store2.get("bar")', store2.get('bar'));
+    $log.debug('store3.get("foo")', store3.get('foo'));
+    $log.debug('store3.get("bar")', store3.get('bar'));
+
+    $log.debug('clearing store2');
+
+    store2.clear();
+    $log.debug('store1.get("foo")', store1.get('foo'));
+    $log.debug('store1.get("bar")', store1.get('bar'));
+    $log.debug('store2.get("foo")', store2.get('foo'));
+    $log.debug('store2.get("bar")', store2.get('bar'));
+    $log.debug('store3.get("foo")', store3.get('foo'));
+    $log.debug('store3.get("bar")', store3.get('bar'));
+
+    return this;
+  }
+]);
+
+angular
+  .element(document)
+  .ready(function() {
+    angular.bootstrap(document, ['app']);
+  });
+</script>
+</body>
+</html>
