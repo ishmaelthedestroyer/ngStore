@@ -13,6 +13,7 @@ var Store = function(prefix) {
   }
 
   this.prefix = prefix;
+  this.data = {};
   return this;
 };
 
@@ -22,7 +23,7 @@ var Store = function(prefix) {
  * @return {*}
  */
 Store.prototype.get = function(key) {
-  return store.get(this.prefix + key);
+  return this.data[this.prefix + key];
 };
 
 /**
@@ -32,7 +33,11 @@ Store.prototype.get = function(key) {
  * @returns {Store}
  */
 Store.prototype.set = function(key, value) {
-  store.set(this.prefix + key, value);
+  this.data[this.prefix + key] = value;
+  if (store.enabled) {
+    store.set(this.prefix + key, value);
+  }
+
   return this;
 };
 
@@ -42,6 +47,7 @@ Store.prototype.set = function(key, value) {
  * @return {Store}
  */
 Store.prototype.remove = function(key) {
+  delete this.data[this.prefix + key];
   store.remove(this.prefix + key);
   return this;
 };
@@ -55,11 +61,9 @@ Store.prototype.getAll = function() {
     alias = this,
     queue = {};
 
-  store.forEach(function(key, value) {
-    if (key.substr(0, alias.prefix.length) === alias.prefix) {
-      queue[key] = value;
-    }
-  });
+  for (var key in alias.data) {
+    queue[key] = alias.data[key];
+  }
 
   return queue;
 };
@@ -69,15 +73,16 @@ Store.prototype.getAll = function() {
  * @return {Store}
  */
 Store.prototype.clear = function() {
-  var
-    alias = this,
-    queue = store.getAll();
+  var alias = this;
 
-  for (var key in queue) {
-    if (key.substr(0, alias.prefix.length) === alias.prefix) {
-      store.remove(key);
+  if (store.enabled) {
+    for (var key in alias.data) {
+      if (key.substr(0, alias.prefix.length) === alias.prefix) {
+        store.remove(key);
+      }
     }
   }
 
+  this.data = {};
   return this;
 };

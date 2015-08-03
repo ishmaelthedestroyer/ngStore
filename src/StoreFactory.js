@@ -61,6 +61,7 @@ StoreFactory.prototype.get = function(prefix) {
 StoreFactory.prototype.destroy = function() {
   store.clear();
   for (var key in this.stores) {
+    this.stores[key].data = {};
     delete this.stores[key];
   }
 
