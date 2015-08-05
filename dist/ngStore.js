@@ -87,6 +87,19 @@ var Store = function(prefix) {
 
   this.prefix = prefix;
   this.data = {};
+
+  // if local storage set,
+  // find all data in store, check if has this Store's prefix
+  // if so, load it into memory
+  if (store.enabled) {
+    var queue = store.getAll();
+    for (var key in queue) {
+      if (key.substr(0, this.prefix.length) === this.prefix) {
+        this.data[key] = queue[key];
+      }
+    }
+  }
+
   return this;
 };
 
